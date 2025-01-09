@@ -268,3 +268,54 @@ class Solution {
         return Math.max(left,right)+1;
     }
 }
+
+#572 Subtree of another tree
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    boolean flag = false;
+    boolean finalResult = false;
+    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        if(root==null)
+            return flag;
+        if(subRoot!=null && root.val==subRoot.val){
+            flag = isSame(root,subRoot);
+            if(flag==true)
+                finalResult=true;
+            //System.out.println("flag= "+flag);
+        }
+            
+        isSubtree(root.left,subRoot);
+        isSubtree(root.right,subRoot);
+        return finalResult;
+    }
+    public boolean isSame(TreeNode root, TreeNode subRoot){
+        if(root==null && subRoot==null){
+            return true;
+        }else if((root!=null && subRoot==null)||(root==null && subRoot!=null)){
+            return false;
+        }else if(root.val!=subRoot.val){
+            return false;
+        }
+        boolean lresult = isSame(root.left,subRoot.left);
+        boolean rresult = isSame(root.right,subRoot.right);
+        if(lresult == false || rresult==false)
+            return false;
+        else 
+            return true;    
+    }
+}
