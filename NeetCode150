@@ -124,6 +124,21 @@ class Solution {
 //         return 0;        
 //     }
 // }
+# 621 Task Scheduler
+
+class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        int[] arr = new int[26];
+        for(char ch:tasks){
+            arr[ch-'A']++;
+        }
+        int maxFreq = Arrays.stream(arr).max().getAsInt();
+        int timeTaken = (maxFreq-1)*(n+1);
+        int equalFreqTimeTaken = (int)Arrays.stream(arr).filter(a->a==maxFreq).count();
+        return Math.max(timeTaken+equalFreqTimeTaken,tasks.length);
+    }
+}
+
 
 # 295. Find Median from Data Stream
 
