@@ -76,54 +76,37 @@ class CustomComparator implements Comparator<Integer>{
 #973. K Closest Points to Origin
 
 
-import java.util.Map.Entry;
 class Solution {
+
     public int[][] kClosest(int[][] points, int k) {
-        PriorityQueue<Double>index= new PriorityQueue<>(Comparator.reverseOrder());
-        HashMap<Integer,Double> map = new HashMap<>();
-        int[][] result = new int[k][];
-        int q=0;
-        for(int i=0;i<points.length;i++){
-            double sqrt = Math.sqrt(points[i][0]*points[i][0]+points[i][1]*points[i][1]);
-            
-            if(index.size()!=k){
-                index.offer(sqrt);
-                map.put(i,sqrt);
-            }else if(index.peek()>sqrt){
-                for(Entry<Integer,Double> entry: map.entrySet()){
-                    
-                    if(entry.getValue().equals(index.peek())){
-                        map.remove(entry.getKey());
-                        
-                    }    
-                }
-                index.poll();
-                index.offer(sqrt);
-                map.put(i,sqrt);
+
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> (b[0]*b[0] + b[1]*b[1]) - (a[0]*a[0] + a[1]*a[1]));
+
+        for (int[] point : points) {
+
+            pq.offer(point);
+
+            if (pq.size() > k) {
+
+                pq.poll();
+
             }
+
         }
-        //System.out.println("map="+map);
-        //System.out.println("index="+index);
-        // Iterator<Double> itr = index.iterator();
-        // while(itr.hasNext()){
-        //     result[q++]=points[map.get(itr.next())];
-        // }
-        for(Entry<Integer,Double> entrys: map.entrySet()){
-            result[q++]=points[entrys.getKey()];
+
+        int[][] result = new int[k][2];
+
+        while (k-- > 0) {
+
+            result[k] = pq.poll();
+
         }
+
         return result;
+
     }
 
 }
-// class customComparator implements Comparator<Double>{
-//     double compare(double a,double b){
-//         if(a>b)
-//             return -1;
-//         if(a<b)
-//             return 1;
-//         return 0;        
-//     }
-// }
 # 621 Task Scheduler
 
 class Solution {
